@@ -1,0 +1,71 @@
+﻿@using GameZone.Models;
+@model IEnumerable<Game>;
+@{
+    ViewData["Title"] = "Recently Deleted Games";
+
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-5">
+        <h4 class="alert-heading">No Deleted games!</h4>
+        <p class="mb-0">No games were Deleted yet.</p>
+    </div>
+}
+else
+{
+    <div class="mt-5">
+        <table class="table table-bordered border-primary">
+            <tbody>
+                @foreach (var game in Model)
+                {
+                    <tr class="border-1 border-success">
+                        <td>
+                            <div class="d-flex">
+                                <div class="pe-4">
+                                    <img src="~/Images/Games/@game.Cover" alt="@game.Name" style="max-width: 90px" />
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h4 class="text-light">@game.Name</h4>
+                                    <h5>@game.category.Name</h5>
+                                    <p>@game.price/$</p>
+@*                                     <h5>@game.DeleetedGame.DeletedDate.ToShortDateString()</h5>
+ *@                                    @if (game.isDeleted == true)
+                                    {
+                                        <p>This game is deleted</p>
+                                    }
+                                    @if (game.isDeleted == false)
+                                    {
+                                        <p>This game is not deleted</p>
+
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-info rounded rounded-3 me-2" asp-action="Edit" asp-route-id="@game.Id">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a class="btn btn-info rounded rounded-3 me-2" asp-action="Details" asp-route-id="@game.Id">
+                                    <i class="bi bi-ticket-detailed-fill"></i>
+                                </a>
+                                <a href="javascript:;" class="btn btn-success js-Undelete" data-id="@game.Id">
+                                    <i class="bi bi-undo"> Retrive </i> 
+                                </a>
+                                <a href="javascript:;" class="btn btn-danger js-deleteforever" data-id="@game.Id">
+                                    <i class="bi bi-trash3">Delet for ever</i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts
+{
+    <script src="~/js/games-index.js" asp-append-version="true"></script>
+}
